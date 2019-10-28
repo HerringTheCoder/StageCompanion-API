@@ -24,9 +24,7 @@ $router->post('auth/login',
 $router->group(
     ['middleware' => 'jwt.auth'],
     function() use ($router) {
-        $router->get('users', function() {
-            $users = \App\User::all();
-            return response()->json($users);
-        });
+        $router->get('users', ['uses' => 'UserController@index']
+        );
     }
 );

@@ -26,5 +26,6 @@ $router->group(
     function() use ($router) {
         $router->get('users', ['uses' => 'UserController@index']
         );
+        $router->get('profile', ['uses' => 'UserController@profile']);
     }
 );

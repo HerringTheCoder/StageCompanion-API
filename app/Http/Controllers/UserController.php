@@ -27,4 +27,9 @@ class UserController extends Controller
         if($request->auth)
         return response()->json($request->auth);
     }
+
+
+
+
+
 }

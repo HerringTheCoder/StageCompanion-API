@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+class CreateForeignKeys extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,13 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->uuid('uuid')->primary();
-            $table->string('name')->default('');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->uuid('band_id')->nullable();
-            $table->timestamps();
+        Schema::table('users', function($table) {
+            $table->foreign('band_id')->references('id')->on('bands');
         });
 
-
+        Schema::table('bands', function($table) {
+        $table->foreign('leader_id')->references('uuid')->on('users');
+        });
     }
 
     /**
@@ -33,5 +30,6 @@ class CreateUsersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('users');
+        Schema::dropIfExists('bands');
     }
 }

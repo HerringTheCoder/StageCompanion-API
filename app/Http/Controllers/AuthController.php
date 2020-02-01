@@ -76,4 +76,19 @@ class AuthController extends BaseController
             'error' => 'Email or password is wrong.'
         ], 400);
     }
+
+    public function register(Request $request)
+    {
+        $this->validate($request, [
+        'email'=>'required|email|unique:users',
+        'password'=> 'required'
+        ]);
+        $user = new User();
+        $user->email = $request->email;
+        $user->password = password_hash($request->password, PASSWORD_BCRYPT);
+        $user->save();
+        return response()->json([
+            'message'=>'User created successfully.'
+        ]);
+    }
 }

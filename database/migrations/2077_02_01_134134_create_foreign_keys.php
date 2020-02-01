@@ -18,7 +18,7 @@ class CreateForeignKeys extends Migration
         });
 
         Schema::table('bands', function($table) {
-        $table->foreign('leader_id')->references('uuid')->on('users');
+        $table->foreign('leader_id')->references('id')->on('users');
         });
     }
 

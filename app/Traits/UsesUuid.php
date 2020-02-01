@@ -16,7 +16,7 @@ trait UsesUuid
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->uuid = Str::uuid()->toString();
+            $model->id = Str::uuid()->toString();
         });
     }
 
@@ -37,7 +37,7 @@ trait UsesUuid
      */
     public function getKeyName()
     {
-        return 'uuid';
+        return 'id';
     }
 
     /**

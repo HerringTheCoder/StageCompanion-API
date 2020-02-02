@@ -1,2 +1,2 @@
-# Lumen-Rest
-Rest Api made in Lumen framework with implemented authentication and database management.
+# Stage Companion API 
+Rest Api made in Lumen microframework used to handle backend side of Stage Companion app.

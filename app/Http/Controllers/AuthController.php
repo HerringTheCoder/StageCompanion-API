@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use Validator;
 use App\User;
 use Firebase\JWT\JWT;
@@ -22,7 +24,8 @@ class AuthController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return void
      */
-    public function __construct(Request $request) {
+    public function __construct(Request $request)
+    {
         $this->request = $request;
     }
     /**
@@ -31,12 +34,13 @@ class AuthController extends BaseController
      * @param  \App\User   $user
      * @return string
      */
-    protected function jwt(User $user) {
+    protected function jwt(User $user)
+    {
         $payload = [
             'iss' => "lumen-jwt", // Issuer of the token
             'sub' => $user->id, // Subject of the token
             'iat' => time(), // Time when JWT was issued.
-            'exp' => time() + 60*60 // Expiration time
+            'exp' => time() + 60 * 60 // Expiration time
         ];
 
         // As you can see we are passing `JWT_SECRET` as the second parameter that will
@@ -49,7 +53,8 @@ class AuthController extends BaseController
      * @param  \App\User   $user
      * @return mixed
      */
-    public function authenticate(User $user) {
+    public function authenticate(User $user)
+    {
         $this->validate($this->request, [
             'email'     => 'required|email',
             'password'  => 'required'
@@ -80,15 +85,15 @@ class AuthController extends BaseController
     public function register(Request $request)
     {
         $this->validate($request, [
-        'email'=>'required|email|unique:users',
-        'password'=> 'required'
+            'email' => 'required|email|unique:users',
+            'password' => 'required'
         ]);
         $user = new User();
         $user->email = $request->email;
         $user->password = password_hash($request->password, PASSWORD_BCRYPT);
         $user->save();
         return response()->json([
-            'message'=>'User created successfully.'
+            'message' => 'User created successfully.'
         ]);
     }
 }

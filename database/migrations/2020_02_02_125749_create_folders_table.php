@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBandsTable extends Migration
+class CreateFoldersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateBandsTable extends Migration
      */
     public function up()
     {
-        Schema::create('bands', function (Blueprint $table) {
-            $table->bigIncrements('id')->primary();
+        Schema::create('folders', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->integer('owner_id')->unsigned();
             $table->string('name');
-            $table->uuid('leader_id');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateBandsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bands');
+        Schema::dropIfExists('folders');
     }
 }

@@ -20,6 +20,14 @@ class CreateForeignKeys extends Migration
         Schema::table('bands', function($table) {
         $table->foreign('leader_id')->references('id')->on('users');
         });
+
+        Schema::table('folders', function($table){
+            $table->foreign('owner_id')->references('id')->on('users');
+        });
+
+        Schema::table('files', function($table){
+            $table->foreign('folder_id')->references('id')->on('folders');
+        });
     }
 
     /**
@@ -31,5 +39,7 @@ class CreateForeignKeys extends Migration
     {
         Schema::dropIfExists('users');
         Schema::dropIfExists('bands');
+        Schema::dropIfExists('folders');
+        Schema::dropIfExists('files');
     }
 }

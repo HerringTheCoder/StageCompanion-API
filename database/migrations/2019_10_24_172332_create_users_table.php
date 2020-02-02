@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('name')->default('');
             $table->string('email')->unique();
             $table->string('password');
-            $table->uuid('band_id')->nullable();
+            $table->integer('band_id')->unsigned()->nullable();
             $table->timestamps();
         });
 

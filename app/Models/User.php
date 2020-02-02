@@ -31,8 +31,23 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'password',
     ];
 
-    public function user($id)
+    /**
+     * Returns band associated to user.
+     * @return JSON
+     */
+    public function band()
     {
-        return $this->with($this->with)->findOrFail($id);
+        $this->belongsTo('App\Band', 'band_id');
     }
+
+    public function folder()
+    {
+        $this->hasMany('App\Folder');
+    }
+
+    public function files()
+    {
+        $this->folder->files;
+    }
+    //TODO: Sorting up relations between user, files and folders, adding roles? Pivot table between bands and users?
 }

@@ -6,7 +6,7 @@ use App\Folder;
 use Illuminate\Http\Request;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
-class UserController extends Controller
+class FolderController extends Controller
 {
     /**
      * Create a new controller instance.

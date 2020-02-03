@@ -35,9 +35,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * Returns band associated to user.
      * @return JSON
      */
-    public function band()
+    public function bands()
     {
-        $this->belongsTo('App\Band', 'band_id');
+        $this->belongsToMany('App\Band');
     }
 
     public function folder()

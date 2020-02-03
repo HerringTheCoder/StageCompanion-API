@@ -13,10 +13,6 @@ class CreateForeignKeys extends Migration
      */
     public function up()
     {
-        Schema::table('users', function($table) {
-            $table->foreign('band_id')->references('id')->on('bands');
-        });
-
         Schema::table('bands', function($table) {
         $table->foreign('leader_id')->references('id')->on('users');
         });
@@ -27,6 +23,11 @@ class CreateForeignKeys extends Migration
 
         Schema::table('files', function($table){
             $table->foreign('folder_id')->references('id')->on('folders');
+        });
+
+        Schema::table('band_user', function($table){
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('band_id')->references('id')->on('bands')->onDelete('cascade');
         });
     }
 

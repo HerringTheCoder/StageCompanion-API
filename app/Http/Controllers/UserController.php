@@ -16,13 +16,19 @@ class UserController extends Controller
     {
         $this->middleware('jwt.auth');
     }
-
+    /**
+     * Return list of all users
+     * @return JSON
+     */
     public function index()
     {
         $users = User::all();
         return response()->json($users);
     }
-
+    /**
+     * Return current user's profile
+     * @return JSON
+     */
     public function profile(Request $request)
     {
         return response()->json($request->auth);

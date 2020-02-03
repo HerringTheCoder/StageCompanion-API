@@ -14,7 +14,7 @@ class CreateBandsTable extends Migration
     public function up()
     {
         Schema::create('bands', function (Blueprint $table) {
-            $table->bigIncrements('id')->primary();
+            $table->bigIncrements('id');
             $table->string('name');
             $table->uuid('leader_id');
             $table->timestamps();

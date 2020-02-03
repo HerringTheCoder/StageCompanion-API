@@ -16,13 +16,19 @@ class BandController extends Controller
     {
         $this->middleware('jwt.auth');
     }
-
+    /**
+     * Return all bands in system
+     * @return JSON
+     */
     public function index()
     {
         $bands = Band::all();
         return response()->json($bands);
     }
-
+    /**
+     * Return current user's specific band
+     * @return JSON
+     */
     public function show(Request $request)
     {
         $band = $request->auth->band;

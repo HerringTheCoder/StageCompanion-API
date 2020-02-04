@@ -15,8 +15,8 @@ class Band extends Model
         return $this->belongsTo('App\User', 'leader_id');
     }
 
-    public function members()
+    public function users()
     {
-        return $this->belongsToMany('App\User');
+        return $this->belongsToMany('App\User')->withPivot('role');
     }
 }

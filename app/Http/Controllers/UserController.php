@@ -33,4 +33,27 @@ class UserController extends Controller
     {
         return response()->json($request->auth);
     }
+
+    /**
+     * Validate and update user's name, then return operation status
+     * @return JSON
+     */
+    public function update(Request $request)
+    {
+        if($request->name){
+        $this->validate($request, [
+            'name' => 'min:5|max:20'
+        ]);
+        $user = $request->auth;
+        $user->name = $request->name;
+        $user->save();
+        return response()->json([
+            'message' => 'Your name has been updated.'
+        ]);
+    }
+    else
+    return response()->json([
+        'message' => 'There was nothing to update.'
+    ]);
+    }
 }

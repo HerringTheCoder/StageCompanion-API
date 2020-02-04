@@ -15,14 +15,28 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->post('auth/login',['uses'=>'AuthController@authenticate']);
-$router->post('auth/register',['uses'=>'AuthController@register']);
+$router->post('auth/login', ['uses' => 'AuthController@authenticate']);
+$router->post('auth/register', ['uses' => 'AuthController@register']);
 
 $router->group(
-    ['middleware' => 'jwt.auth'],
-    function() use ($router) {
-        $router->get('users', ['uses' => 'UserController@index']
-        );
+    [
+        'middleware' => 'jwt.auth',
+        'prefix' => 'users'
+    ],
+    function () use ($router) {
+        $router->get('/', ['uses' => 'UserController@index']);
         $router->get('profile', ['uses' => 'UserController@profile']);
+        $router->post('update', ['uses' => 'UserController@update']);
+    }
+);
+
+$router->group(
+    [
+        'middleware' => 'jwt.auth',
+        'prefix' => 'bands'
+    ],
+    function () use ($router) {
+        $router->get('/', ['uses' => 'BandController@index']);
+        $router->post('store', ['uses'=>'BandController@store']);
     }
 );

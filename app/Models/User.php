@@ -40,11 +40,18 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->belongsToMany('App\Band')->withPivot('role');
     }
 
+    /**
+     * Returns user's folder
+     * @return Folder
+     */
     public function folder()
     {
         return $this->hasMany('App\Folder');
     }
-
+    /**
+     * Returns list of user's files
+     * @return File
+     */
     public function files()
     {
         return $this->folder->files;

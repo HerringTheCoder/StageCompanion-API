@@ -25,6 +25,11 @@ class CreateForeignKeys extends Migration
             $table->foreign('folder_id')->references('id')->on('folders');
         });
 
+        Schema::table('invitations', function($table){
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('band_id')->references('id')->on('bands');
+        });
+
         Schema::table('band_user', function($table){
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('band_id')->references('id')->on('bands')->onDelete('cascade');

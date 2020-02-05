@@ -63,5 +63,4 @@ class BandController extends Controller
         else
         return response()->json(['message'=>'There was nothing to update.']);
     }
-    //TODO: Add members to the band
 }

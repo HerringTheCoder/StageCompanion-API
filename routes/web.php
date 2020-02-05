@@ -38,5 +38,6 @@ $router->group(
     function () use ($router) {
         $router->get('/', ['uses' => 'BandController@index']);
         $router->post('store', ['uses'=>'BandController@store']);
+        $router->post('invite', ['uses'=>'InvitationController@invite']);
     }
 );

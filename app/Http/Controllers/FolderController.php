@@ -17,7 +17,12 @@ class FolderController extends Controller
     {
         $this->middleware('jwt.auth');
     }
-
+    /**
+     * Return a list of folders belonging to user
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function index(Request $request)
     {
         try {

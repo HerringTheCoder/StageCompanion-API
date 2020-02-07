@@ -18,7 +18,9 @@ class UserController extends Controller
     }
     /**
      * Return list of all users
-     * @return JSON
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function index()
     {
@@ -27,7 +29,9 @@ class UserController extends Controller
     }
     /**
      * Return current user's profile
-     * @return JSON
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function profile(Request $request)
     {
@@ -36,7 +40,9 @@ class UserController extends Controller
 
     /**
      * Validate and update user's name, then return operation status
-     * @return JSON
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request)
     {

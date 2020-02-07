@@ -7,7 +7,7 @@ use App\Band;
 
 class BandController extends Controller
 {
-     /**
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -18,7 +18,8 @@ class BandController extends Controller
     }
     /**
      * Return all bands in system
-     * @return JSON
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
@@ -27,7 +28,8 @@ class BandController extends Controller
     }
     /**
      * Return current user's specific band
-     * @return JSON
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Request $request)
     {
@@ -36,7 +38,9 @@ class BandController extends Controller
     }
     /**
      * Creates a new band
-     * @return JSON
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
@@ -47,20 +51,25 @@ class BandController extends Controller
         $band->name = $request->name;
         $band->leader_id = $request->auth->id;
         $band->save();
-        $band->users()->attach($request->auth, ['role'=>'Leader']);
-        return response()->json(['message'=>'Band created successfully.'], 201);
+        $band->users()->attach($request->auth, ['role' => 'Leader']);
+        return response()->json(['message' => 'Band created successfully.'], 201);
     }
-
+    /**
+     * Updates band model (name change)
+     * @param Request $request
+     * Expected: 'name' and 'band_id'
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function update(Request $request)
     {
-        if($request->name)
-        {
-        $this->validate($request,[
+        if (!$request->name) {
+            return response()->json(['message' => 'There was nothing to update.']);
+        }
+        $this->validate($request, [
             'name' => 'min:3|max:30'
         ]);
-        return response()->json(['message'=>'Band updated successfully.']);
-        }
-        else
-        return response()->json(['message'=>'There was nothing to update.']);
+        Band::where('id', $request->band_id)->first()->update(['name' => $request->name]);
+        return response()->json(['message' => 'Band updated successfully.']);
     }
 }

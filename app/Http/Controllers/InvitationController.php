@@ -49,4 +49,13 @@ class InvitationController extends Controller
         ]);
         return $this->invitation->accept($request);
     }
+    /**
+     * Lists all pending invitations of authorized user.
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index(Request $request)
+    {
+        return Invitation::where('user_id',$request->auth->id)->where('accepted',false);
+    }
 }

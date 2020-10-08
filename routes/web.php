@@ -41,3 +41,16 @@ $router->group(
         $router->post('invite', ['uses'=>'InvitationController@invite']);
     }
 );
+
+$router->group(
+    [
+        'middleware' => 'jwt.auth',
+        'prefix' => 'files'
+    ],
+    function () use ($router) {
+        $router->get('/', ['uses' => 'FileController@index']);
+        $router->get('/{id}', ['uses'=>'FileController@show']);
+        $router->post('/', ['uses' =>'FileController@store']);
+        $router->delete('/{id}', ['uses'=>'FileController@delete']);
+    }
+);

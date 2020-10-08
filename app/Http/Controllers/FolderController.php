@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Folder;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 class FolderController extends Controller
@@ -17,6 +18,7 @@ class FolderController extends Controller
     {
         $this->middleware('jwt.auth');
     }
+
     /**
      * Return a list of folders belonging to user
      * @param Request $request
@@ -30,13 +32,13 @@ class FolderController extends Controller
         } catch (NotFoundResourceException $exception) {
             return response()->json([
                 'error' => 'Folders not found.'
-            ], 404);
+            ], Response::HTTP_NOT_FOUND);
         }
-        return response()->json($folders, 200);
+        return response()->json($folders);
     }
 
     public function show(Request $request)
     {
-        return response()->json($request->auth, 200);
+        return response()->json($request->auth);
     }
 }

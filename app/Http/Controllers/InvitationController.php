@@ -5,9 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Invitation;
 use App\Services\InvitationService;
-use App\User;
-use Exception;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class InvitationController extends Controller
 {
@@ -21,6 +18,7 @@ class InvitationController extends Controller
         $this->invitation = $invitation;
         $this->middleware('jwt.auth');
     }
+
     /**
      * Sends an invite to user specified by email.
      * Requires inputting target 'email' and current 'band_id' in request.
@@ -35,6 +33,7 @@ class InvitationController extends Controller
         ]);
         return $this->invitation->send($request);
     }
+
     /**
      * Accepts a specific invite.
      * Requires providing an 'invitation id'.
@@ -49,6 +48,7 @@ class InvitationController extends Controller
         ]);
         return $this->invitation->accept($request);
     }
+
     /**
      * Lists all pending invitations of authorized user.
      * @param Request $request

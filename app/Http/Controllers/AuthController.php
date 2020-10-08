@@ -37,10 +37,10 @@ class AuthController extends BaseController
     protected function jwt(User $user)
     {
         $payload = [
-            'iss' => "lumen-jwt", // Issuer of the token
-            'sub' => $user->id, // Subject of the token
+            'iss' => "StageCompanion-API", // Issuer of the token
+            'sub' => $user, // Subject of the token
             'iat' => time(), // Time when JWT was issued.
-            'exp' => time() + 60 * 60 // Expiration time
+            'exp' => time() + 3600 // Expiration time
         ];
 
         // As you can see we are passing `JWT_SECRET` as the second parameter that will
@@ -59,24 +59,20 @@ class AuthController extends BaseController
             'email'     => 'required|email',
             'password'  => 'required'
         ]);
-        // Find the user by email
+
         $user = User::where('email', $this->request->input('email'))->first();
         if (!$user) {
-            // You wil probably have some sort of helpers or whatever
-            // to make sure that you have the same response format for
-            // differents kind of responses. But let's return the
-            // below respose for now.
             return response()->json([
                 'error' => 'Email does not exist.'
             ], 400);
         }
-        // Verify the password and generate the token
+
         if (Hash::check($this->request->input('password'), $user->password)) {
             return response()->json([
                 'token' => $this->jwt($user)
             ], 200);
         }
-        // Bad Request response
+
         return response()->json([
             'error' => 'Email or password is wrong.'
         ], 400);
@@ -85,8 +81,8 @@ class AuthController extends BaseController
     public function register(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|email|unique:users',
-            'password' => 'required'
+            'email' => 'required|email|unique:users|max:32',
+            'password' => 'required|min:6|max:32|confirmed'
         ]);
         $user = new User();
         $user->email = $request->email;

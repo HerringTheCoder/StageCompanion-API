@@ -4,18 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Band;
+use Illuminate\Http\Response;
 
 class BandController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('jwt.auth');
     }
+
     /**
      * Return all bands in system
      * @param Request $request
@@ -26,6 +23,7 @@ class BandController extends Controller
         $bands = $request->auth->bands;
         return response()->json($bands);
     }
+
     /**
      * Return current user's specific band
      * @param Request $request
@@ -36,6 +34,7 @@ class BandController extends Controller
         $band = $request->auth->bands;
         return response()->json($band);
     }
+
     /**
      * Creates a new band
      * @param Request $request
@@ -52,8 +51,9 @@ class BandController extends Controller
         $band->leader_id = $request->auth->id;
         $band->save();
         $band->users()->attach($request->auth, ['role' => 'Leader']);
-        return response()->json(['message' => 'Band created successfully.'], 201);
+        return response()->json(['message' => 'Band created successfully.'], Response::HTTP_CREATED);
     }
+
     /**
      * Updates band model (name change)
      * @param Request $request

@@ -10,6 +10,7 @@
         "firebase/php-jwt": "^5.0",
         "flipbox/lumen-generator": "^6.0",
         "laravel/lumen-framework": "^6.0",
+        "league/flysystem": "^1.1",
         "ramsey/uuid": "^3.9"
     },
     "require-dev": {

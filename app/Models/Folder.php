@@ -4,6 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $id
+ * @property string $ownerId
+ * @property string $name
+ */
 class Folder extends Model
 {
     protected $guarded = [

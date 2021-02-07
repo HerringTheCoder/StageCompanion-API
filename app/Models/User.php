@@ -43,17 +43,18 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     public function bands()
     {
-        return $this->belongsToMany('App\Band')->withPivot('role');
+        return $this->belongsToMany('App\Band')->as('bandUsers')->withPivot('role');
     }
 
     /**
-     * Returns user's folder
+     * Returns user's folders
      * @return Folder
      */
     public function folder()
     {
         return $this->hasMany('App\Folder');
     }
+
     /**
      * Returns list of user's files
      * @return File
@@ -62,5 +63,4 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return $this->folder->files;
     }
-    //TODO: Sorting up relations between user, files and folders, adding roles? Pivot table between bands and users?
 }

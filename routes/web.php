@@ -1,18 +1,7 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It is a breeze. Simply tell Lumen the URIs it should respond to
-| and give it the Closure to call when that URI is requested.
-|
-*/
-
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    return $router->app->version() . "-" . "StageCompanionAPI-prerelease 0.9";
 });
 
 $router->post('auth/login', ['uses' => 'AuthController@authenticate']);
@@ -26,7 +15,7 @@ $router->group(
     function () use ($router) {
         $router->get('/', ['uses' => 'UserController@index']);
         $router->get('profile', ['uses' => 'UserController@profile']);
-        $router->post('update', ['uses' => 'UserController@update']);
+        $router->put('update', ['uses' => 'UserController@update']);
     }
 );
 
@@ -37,8 +26,13 @@ $router->group(
     ],
     function () use ($router) {
         $router->get('/', ['uses' => 'BandController@index']);
-        $router->post('store', ['uses'=>'BandController@store']);
-        $router->post('invite', ['uses'=>'InvitationController@invite']);
+        $router->get('/{id}', ['uses' => 'BandController@show']);
+        $router->get('/filter/owned', ['uses' => 'BandController@showOwned']);
+        $router->get('/filter/membership', ['uses' => 'BandController@showMembership']);
+        $router->post('/', ['uses' => 'BandController@store']);
+        $router->delete('/{bandId}', ['uses' => 'BandController@delete']);
+        $router->put('/', ['uses' => 'BandController@update']);
+        $router->get('/{bandId}/leave/{userId}', ['uses' => 'BandController@leave']);
     }
 );
 
@@ -49,8 +43,38 @@ $router->group(
     ],
     function () use ($router) {
         $router->get('/', ['uses' => 'FileController@index']);
-        $router->get('/{id}', ['uses'=>'FileController@show']);
-        $router->post('/', ['uses' =>'FileController@store']);
-        $router->delete('/{id}', ['uses'=>'FileController@delete']);
+        $router->get('/download/{id}', ['uses' => 'FileController@show']);
+        $router->get('/folder/{id}', ['uses' => 'FileController@showByFolderId']);
+        $router->get('/owned', ['uses' => 'FileController@showOwned']);
+        $router->post('/', ['uses' => 'FileController@store']);
+        $router->delete('/{id}', ['uses' => 'FileController@delete']);
+        $router->delete('/admin/all', ['uses' => 'FileController@deleteAll']);
+        $router->post('/bandFile', ['uses' => 'FileController@storeBandFile']);
+    }
+);
+$router->group(
+    [
+        'middleware' => 'jwt.auth',
+        'prefix' => 'invitations'
+    ],
+    function () use ($router){
+        $router->get('/', ['uses' => 'InvitationController@index']);
+        $router->delete('/{id}', ['uses' => 'InvitationController@delete']);
+        $router->post('/', ['uses' => 'InvitationController@invite']);
+        $router->post('/accept',['uses'=>'InvitationController@accept']);
+    }
+);
+
+$router->group(
+    [
+        'middleware' => 'jwt.auth',
+        'prefix' => "folders"
+    ],
+    function () use ($router) {
+        $router->get('/', ['uses' => 'FolderController@index']);
+        $router->get('/{id}', ['uses' => 'FolderController@show']);
+        $router->post('/', ['uses' => 'FolderController@store']);
+        $router->put('/', ['uses' => 'FolderController@update']);
+        $router->delete('/{id}', ['uses' => 'FolderController@delete']);
     }
 );

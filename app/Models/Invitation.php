@@ -4,6 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $id
+ * @property string $user_id
+ * @property int $band_id
+ * @property bool $accepted
+ */
 class Invitation extends Model
 {
     protected $guarded = [];

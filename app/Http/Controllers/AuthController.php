@@ -37,14 +37,12 @@ class AuthController extends BaseController
     protected function jwt(User $user)
     {
         $payload = [
-            'iss' => "StageCompanion-API", // Issuer of the token
-            'sub' => $user, // Subject of the token
-            'iat' => time(), // Time when JWT was issued.
-            'exp' => time() + 3600 // Expiration time
+            'iss' => "StageCompanion-API",
+            'sub' => $user,
+            'iat' => time(),
+            'exp' => time() + 3600
         ];
 
-        // As you can see we are passing `JWT_SECRET` as the second parameter that will
-        // be used to decode the token in the future.
         return JWT::encode($payload, env('JWT_SECRET'));
     }
     /**
@@ -87,6 +85,7 @@ class AuthController extends BaseController
         $user = new User();
         $user->email = $request->email;
         $user->password = password_hash($request->password, PASSWORD_BCRYPT);
+        $user->name = $request->name;
         $user->save();
         return response()->json([
             'message' => 'User created successfully.'

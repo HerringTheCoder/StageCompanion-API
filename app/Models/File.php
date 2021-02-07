@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
@@ -13,10 +14,16 @@ use Illuminate\Database\Eloquent\Model;
  */
 class File extends Model
 {
-    protected $guarded = [];
+    protected $appends = ['content'];
+    protected $hidden = ['content'];
 
-    public function folder()
+    public function folder() : BelongsTo
     {
         return $this->belongsTo('App\Folder', 'folder_id');
+    }
+
+    public function getContentAttribute() : string
+    {
+        return $this->attributes['content'];
     }
 }

@@ -22,6 +22,6 @@ class Band extends Model
 
     public function users()
     {
-        return $this->belongsToMany('App\User')->withPivot('role');
+        return $this->belongsToMany('App\User')->as('bandUsers')->withPivot('role');
     }
 }

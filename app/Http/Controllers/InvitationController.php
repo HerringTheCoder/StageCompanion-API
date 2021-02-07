@@ -8,54 +8,49 @@ use App\Services\InvitationService;
 
 class InvitationController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct(InvitationService $invitation)
+
+    public function __construct(InvitationService $invitationService)
     {
-        $this->invitation = $invitation;
+        $this->invitationService = $invitationService;
         $this->middleware('jwt.auth');
     }
 
-    /**
-     * Sends an invite to user specified by email.
-     * Requires inputting target 'email' and current 'band_id' in request.
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function send(Request $request)
+    public function invite(Request $request)
     {
         $this->validate($request, [
             'email' => 'required|email|exists:users,email'
         ]);
-        return $this->invitation->send($request);
+
+        return $this->invitationService->send($request);
     }
 
-    /**
-     * Accepts a specific invite.
-     * Requires providing an 'invitation id'.
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Validation\ValidationException
-     */
     public function accept(Request $request)
     {
         $this->validate($request, [
-            'invitation_id' => 'required|exists:invitations,id'
+            'id' => 'required|exists:invitations,id'
         ]);
-        return $this->invitation->accept($request);
+
+        return $this->invitationService->accept($request);
     }
 
-    /**
-     * Lists all pending invitations of authorized user.
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function index(Request $request)
     {
-        return Invitation::where('user_id',$request->auth->id)->where('accepted',false);
+       $invitations = Invitation::query()
+       ->with('band')
+       ->where('user_id',$request->auth->id)
+       ->where('accepted',false)
+       ->get();
+
+       return $invitations;
+    }
+
+    public function delete(int $id)
+    {
+        $invitation = Invitation::query()
+        ->where('id', $id)
+        ->first();
+        $invitation->delete();
+
+        return response()->json(['message' => 'Invitation declined']);
     }
 }

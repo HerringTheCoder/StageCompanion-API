@@ -17,6 +17,7 @@ class CreateInvitationsTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('user_id');
             $table->bigInteger('band_id')->unsigned();
+            $table->string('role');
             $table->boolean('accepted')->default(false);
             $table->timestamps();
         });

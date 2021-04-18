@@ -1,7 +1,7 @@
 <?php
 
 $router->get('/', function () use ($router) {
-    return $router->app->version() . "-" . "StageCompanionAPI-prerelease 0.9";
+    return $router->app->version() . "-" . "StageCompanionAPI v1.0";
 });
 
 $router->post('auth/login', ['uses' => 'AuthController@authenticate']);

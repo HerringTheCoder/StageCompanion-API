@@ -16,9 +16,9 @@ class UserController extends Controller
     {
         $this->middleware('jwt.auth');
     }
-    
+
     /**
-     * Return list of all users
+     * Users - show all
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Validation\ValidationException
@@ -30,7 +30,7 @@ class UserController extends Controller
     }
 
     /**
-     * Return current user's profile
+     * Users - get current user data
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Validation\ValidationException
@@ -41,7 +41,7 @@ class UserController extends Controller
     }
 
     /**
-     * Validate and update user's name, then return operation status
+     * Users - update name
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Validation\ValidationException

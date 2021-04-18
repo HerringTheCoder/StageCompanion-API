@@ -14,6 +14,12 @@ class BandController extends Controller
         $this->middleware('jwt.auth');
     }
 
+    /**
+     * Bands - show all
+     *
+     * @param Request $request
+     * @return void
+     */
     public function index(Request $request)
     {
         $bands = Band::all();
@@ -21,13 +27,25 @@ class BandController extends Controller
         return response()->json($bands);
     }
 
-    public function show($id)
+    /**
+     * Bands - show by Id
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function show(int $id)
     {
         $bands = Band::query()->where('id', $id)->with('users')->first();
 
         return response()->json($bands);
     }
 
+    /**
+     * Bands - show owned
+     *
+     * @param Request $request
+     * @return void
+     */
     public function showOwned(Request $request)
     {
         $bands = Band::query()
@@ -37,6 +55,12 @@ class BandController extends Controller
         return response()->json($bands);
     }
 
+    /**
+     * Bands - show all with membership
+     *
+     * @param Request $request
+     * @return void
+     */
     public function showMembership(Request $request)
     {
         $user = User::find($request->auth->id);
@@ -49,6 +73,12 @@ class BandController extends Controller
         return response()->json($bands);
     }
 
+    /**
+     * Bands - create new
+     *
+     * @param Request $request
+     * @return void
+     */
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -63,6 +93,12 @@ class BandController extends Controller
         return response()->json(['message' => 'Band created successfully.'], Response::HTTP_CREATED);
     }
 
+    /**
+     * Bands - update
+     *
+     * @param Request $request
+     * @return void
+     */
     public function update(Request $request)
     {
         if (!$request->name) {
@@ -75,6 +111,14 @@ class BandController extends Controller
         return response()->json(['message' => 'Band updated successfully.']);
     }
 
+    /**
+     * Bands - leave
+     *
+     * @param Request $request
+     * @param integer $bandId
+     * @param string $userId
+     * @return void
+     */
     public function leave(Request $request, int $bandId, string $userId)
     {
         $user = User::query()
@@ -93,6 +137,13 @@ class BandController extends Controller
         return response()->json(['message' => 'You are not allowed to detach user from band'], 401);
     }
 
+    /**
+     * Bands - delete
+     *
+     * @param Request $request
+     * @param integer $bandId
+     * @return void
+     */
     public function delete(Request $request, int $bandId)
     {
         $band = Band::query()->where('id', $bandId)->first();

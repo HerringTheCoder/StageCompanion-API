@@ -14,19 +14,38 @@ class FileController extends Controller
         $this->middleware('jwt.auth');
     }
 
+    /**
+     * Files - show all
+     *
+     * @param Request $request
+     * @return void
+     */
     public function index(Request $request)
     {
         $files = File::all();
         return response()->json($files);
     }
 
-    public function showByFolderId(Request $request, $folderId)
+    /**
+     * Files - show by folder Id
+     *
+     * @param Request $request
+     * @param integer $folderId
+     * @return void
+     */
+    public function showByFolderId(Request $request, int $folderId)
     {
         $files = File::query()->where("folder_id", $folderId)->get();
 
         return response()->json($files);
     }
 
+    /**
+     * Files - show all owned by current user
+     *
+     * @param Request $request
+     * @return void
+     */
     public function showOwned(Request $request)
     {
         $authorizedFolderIds = Folder::query()
@@ -40,6 +59,13 @@ class FileController extends Controller
         return response()->json($files);
     }
 
+    /**
+     * Files - show file by Id
+     *
+     * @param Request $request
+     * @param integer $id
+     * @return void
+     */
     public function show(Request $request, int $id)
     {
         $file = File::query()
@@ -52,6 +78,12 @@ class FileController extends Controller
         return response()->json($file->makeVisible('content')->toArray());
     }
 
+    /**
+     * Files - upload file to band folder
+     *
+     * @param Request $request
+     * @return void
+     */
     public function storeBandFile(Request $request)
     {
         if ($request->content != null) {
@@ -88,6 +120,12 @@ class FileController extends Controller
         ]);
     }
 
+    /**
+     * Files - upload new
+     *
+     * @param Request $request
+     * @return void
+     */
     public function store(Request $request)
     {
         if ($request->content != null) {
@@ -114,6 +152,12 @@ class FileController extends Controller
         }
     }
 
+    /**
+     * Files - delete by Id
+     *
+     * @param integer $id
+     * @return void
+     */
     public function delete(int $id)
     {
         $file = File::query()->where("id", $id)->first();
@@ -122,6 +166,11 @@ class FileController extends Controller
         return response()->json("File deleted successfully");
     }
 
+    /**
+     * Files - clean local storage
+     *
+     * @return void
+     */
     public function deleteAll()
     {
         Storage::cleanDirectory("files");

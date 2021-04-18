@@ -25,6 +25,10 @@ $app->withFacades();
 
 $app->withEloquent();
 
+$app->configure('swagger-lume');
+
+$app->configure('apidoc');
+
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
@@ -81,10 +85,12 @@ $app->singleton(
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
+//$app->register(App\Providers\AppServiceProvider::class);
  //$app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+$app->register(\SwaggerLume\ServiceProvider::class);
+$app->register(\Mpociot\ApiDoc\ApiDocGeneratorServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

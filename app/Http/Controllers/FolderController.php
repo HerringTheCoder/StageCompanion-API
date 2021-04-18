@@ -22,7 +22,8 @@ class FolderController extends Controller
     }
 
     /**
-     * Return a list of folders belonging to user
+     * Folders - Show all
+     *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Validation\ValidationException
@@ -39,14 +40,27 @@ class FolderController extends Controller
         return response()->json($folders);
     }
 
+
+    /**
+     * Folders - show by Id
+     *
+     * @param Request $request
+     * @return void
+     */
     public function show(Request $request)
     {
         return response()->json($request->auth);
     }
 
+    /**
+     * Folders - create new
+     *
+     * @param Request $request
+     * @return void
+     */
     public function store(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'owner_id' => 'exists:users,id',
             'name' => 'required'
         ]);
@@ -59,9 +73,15 @@ class FolderController extends Controller
         return response()->json(['message' => 'Folder created successfully.']);
     }
 
+    /**
+     * Folders - update
+     *
+     * @param Request $request
+     * @return void
+     */
     public function update(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'id' => 'required',
             'owner_id' => 'required, exists:users,id',
             'name' => 'required'
@@ -72,8 +92,13 @@ class FolderController extends Controller
 
         return response()->json(['message' => 'Folder updated successfully.']);
     }
-
-    public function delete($folderId)
+    /**
+     * Folders - delete by Id
+     *
+     * @param integer $folderId
+     * @return void
+     */
+    public function delete(int $folderId)
     {
         $files = File::query()->select('name')->where('folder_id', $folderId)->get();
         Storage::delete($files);

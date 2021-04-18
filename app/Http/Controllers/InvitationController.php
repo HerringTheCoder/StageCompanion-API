@@ -15,6 +15,12 @@ class InvitationController extends Controller
         $this->middleware('jwt.auth');
     }
 
+    /**
+     * Invitations - create new
+     *
+     * @param Request $request
+     * @return void
+     */
     public function invite(Request $request)
     {
         $this->validate($request, [
@@ -24,6 +30,12 @@ class InvitationController extends Controller
         return $this->invitationService->send($request);
     }
 
+    /**
+     * Invitations - accept
+     *
+     * @param Request $request
+     * @return void
+     */
     public function accept(Request $request)
     {
         $this->validate($request, [
@@ -33,6 +45,12 @@ class InvitationController extends Controller
         return $this->invitationService->accept($request);
     }
 
+    /**
+     * Invitations - show all owned by user
+     *
+     * @param Request $request
+     * @return void
+     */
     public function index(Request $request)
     {
        $invitations = Invitation::query()
@@ -44,6 +62,12 @@ class InvitationController extends Controller
        return $invitations;
     }
 
+    /**
+     * Invitations - delete by Id
+     *
+     * @param integer $id
+     * @return void
+     */
     public function delete(int $id)
     {
         $invitation = Invitation::query()
